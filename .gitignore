@@ -2,3 +2,6 @@
 node_modules
 __pycache__
 .idea
+.run
+*.log
+manifest.json

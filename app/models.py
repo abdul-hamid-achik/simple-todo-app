@@ -1,3 +1,4 @@
+from datetime import timedelta
 from orator.orm import has_many, belongs_to
 from flask_jwt_extended import create_access_token
 from app import db, bcrypt, factory
@@ -24,7 +25,7 @@ class User(db.Model):
         self.password = bcrypt.generate_password_hash(password, 10)
 
     def get_access_token(self):
-        return create_access_token(identity=self.email)
+        return create_access_token(identity=self.email, expires_delta=timedelta(days=1))
 
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password, password)
@@ -46,8 +47,11 @@ class Todo(db.Model):
     __dates__ = [
         'created_at',
         'updated_at',
-        'due_date'
     ]
+    __casts__ = {
+        'due_date': 'date',
+        'completed': 'bool'
+    }
     __table__ = 'todos'
 
     @belongs_to('user_id')

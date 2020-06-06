@@ -16,7 +16,11 @@ def app():
 def before_tests(app):
     with app.app_context():
         migrations_path = app.config['MIGRATION_PATH']
-        os.unlink('/tmp/test.db')
+        try:
+            os.unlink('/tmp/test.db')
+        except FileNotFoundError:
+            pass
+
         repository = DatabaseMigrationRepository(db, 'migrations')
         migrator = Migrator(repository, db)
 

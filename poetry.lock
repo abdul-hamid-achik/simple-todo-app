@@ -215,6 +215,18 @@ Flask = ">=1.0"
 
 [[package]]
 category = "main"
+description = "Flask extension for managing assets with Webpack."
+name = "flask-webpack"
+optional = false
+python-versions = "*"
+version = "0.1.0"
+
+[package.dependencies]
+Flask = "*"
+setuptools = "*"
+
+[[package]]
+category = "main"
 description = "Read metadata from Python packages"
 marker = "python_version < \"3.8\""
 name = "importlib-metadata"
@@ -604,7 +616,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "435ab53e7524b25c4da72fec79a3963681a45dcb59e5270ace64bfce844febc0"
+content-hash = "57d0a303b9c0ef8d9ac6c313f4995a1c1a4d34b67fd55387852dd772ecc5aa25"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -744,6 +756,9 @@ flask-orator = [
 ]
 flask-static-digest = [
     {file = "Flask-Static-Digest-0.1.3.tar.gz", hash = "sha256:ab342609f5c345d37e35070d2ab56a1d29da2905f892b0b2e30a1e2cdb0ed76d"},
+]
+flask-webpack = [
+    {file = "Flask-Webpack-0.1.0.tar.gz", hash = "sha256:aa56bf97253a07e09514e2ff6ff67497d8654a66a17c208394687a64528ddc74"},
 ]
 importlib-metadata = [
     {file = "importlib_metadata-1.6.0-py2.py3-none-any.whl", hash = "sha256:2a688cbaa90e0cc587f1df48bdc97a6eadccdcd9c35fb3f976a09e3b5016d90f"},

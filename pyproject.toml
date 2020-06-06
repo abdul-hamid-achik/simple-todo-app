@@ -18,6 +18,7 @@ flask-bcrypt = "^0.7.1"
 pytest-flask = "^1.0.0"
 pytest-cov = "^2.9.0"
 flask-jwt-extended = "^3.24.1"
+flask-webpack = "^0.1.0"
 
 [tool.poetry.dev-dependencies]
 

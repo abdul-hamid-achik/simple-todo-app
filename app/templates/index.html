@@ -4,9 +4,13 @@
     <title>
         Simple todo app
     </title>
+    <script src="//kit.fontawesome.com/bb58847862.js" crossorigin="anonymous"></script>
+    {{ stylesheet_tag('styles')|safe }}
+    {{ javascript_tag('bundles')|safe }}
+    {{ javascript_tag('styles')|safe }}
 </head>
 <body>
 <div id="container"></div>
+{{ javascript_tag('bundle')|safe }}
 </body>
-
 </html>

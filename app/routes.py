@@ -1,8 +1,20 @@
-from flask import request, jsonify, Response
+from flask import request, jsonify, render_template, make_response
 from dateutil import parser
 from flask_classful import FlaskView, route
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app import models
+import json
+
+
+def output_json(data, code, headers=None):
+    content_type = 'application/json'
+    dumped = json.dumps(data)
+    if headers:
+        headers.update({'Content-Type': content_type})
+    else:
+        headers = {'Content-Type': content_type}
+    response = make_response(dumped, code, headers)
+    return response
 
 
 class TodoView(FlaskView):
@@ -13,13 +25,16 @@ class TodoView(FlaskView):
     excluded_methods = [
         'get_todo',
         'get_model',
+        'get_user'
     ]
+    representations = {'application/json': output_json}
 
     @staticmethod
     def get_model():
         return models.Todo
 
-    def get_user(self):
+    @staticmethod
+    def get_user():
         return models.User.where('email', get_jwt_identity()).first()
 
     def get_todo(self, todo_id):
@@ -27,7 +42,7 @@ class TodoView(FlaskView):
 
     def index(self):
         """ Lists all todo items """
-        queryset = self.get_model()
+        queryset = self.get_model().where('completed', False)
 
         sort_by_priority = request.args.get('priority')
         if sort_by_priority and sort_by_priority == 'asc':
@@ -98,7 +113,7 @@ class MainView(FlaskView):
     route_base = '/'
 
     def index(self):
-        pass
+        return render_template('index.html')
 
     @route('/signup', methods=['POST'])
     def signup(self):
@@ -122,11 +137,12 @@ class MainView(FlaskView):
     @route('/login', methods=['POST'])
     def login(self):
         email = request.form.get('email')
-        user = models.User.where('email', email).get()
+        user = models.User.where('email', email).first()
 
-        if user.check_password(request.form.get('password')):
-            return jsonify({
-                'token': user.get_access_token()
-            })
+        if user and user.check_password(request.form.get('password')):
+            response = user.serialize()
+            response.setdefault('token', user.get_access_token())
+
+            return jsonify(response)
         else:
-            return Response(status=401)
+            return jsonify({"errorMessage": "Invalid login attempt"}), 500
